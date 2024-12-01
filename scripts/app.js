@@ -3,7 +3,6 @@ const urlAPI = "https://restcountries.com/v3.1/all";
 
 let paises = [];
 
-// Exemplo de classe
 class Pais {
     constructor(flag,
         name,
@@ -38,10 +37,10 @@ function processarDados(lista) {
 
     const divDados = document.querySelector("#dados");
 
-    const ul = document.createElement("ul"); //cria lista
+    const ul = document.createElement("ul"); 
 
     for (const pais of lista) {
-        const li = document.createElement("li"); //cria item lista
+        const li = document.createElement("li"); 
 
         const obj = {
             flag: pais.flag,
@@ -56,20 +55,19 @@ function processarDados(lista) {
         
         li.appendChild(componentePais);
         
-        ul.appendChild(li); //add item na lista
+        ul.appendChild(li); 
     }
-    divDados.appendChild(ul); // add lista na div
+    divDados.appendChild(ul); 
 }
 
 function carregarDados() {
-    fetch(urlAPI) // retorna uma promisse (asincrona)
+    fetch(urlAPI) 
         .then((result) => {
             console.log(result);
-            return result.json(); // retorna outra promessa
+            return result.json(); 
         })
         .then((lista) => {
             console.log(lista);
-            //ordenação da lista
             lista.sort((a,b) => a.name.common > b.name.common ? 1 : -1);
 
             processarDados(lista);
@@ -81,8 +79,12 @@ function carregarDados() {
 
 function pesquisaHandler(evt) {
     evt.preventDefault();
-    /* TODO: Implementar pesquisa */
     console.log(evt);
+    const query = evt.target.q.value.toLowerCase();
+    const resultados = paises.filter(pais => pais.name.common.toLowerCase().includes(query));
+    const divDados = document.querySelector("#dados");
+    divDados.innerHTML = "";
+    processarDados(resultados);
 }
 
 function app() {
@@ -92,5 +94,4 @@ function app() {
     carregarDados();
 }
 
-//chamando a função
 app();
